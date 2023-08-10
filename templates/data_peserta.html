@@ -258,10 +258,7 @@
                     "date": moment(date).format('ddd, DD MMM YYYY HH:mm:ss [GMT]')
                 },
                 success: function(response) {
-                    // Update the verified status in the table
-                    // button.data("verified", verified);
-                    // button.closest("tr").find("td:nth-child(3)").text(verified === "1" ? "Yes" : "No");
-                    alert(response.message);
+                    window.location.href = "/data_peserta";
                 },
                 error: function(xhr, status, error) {
                     alert(xhr.responseJSON.error);

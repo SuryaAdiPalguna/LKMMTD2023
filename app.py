@@ -243,7 +243,7 @@ def add_user():
     return jsonify(error="Akses ditolak.")
 
 @app.route("/request_date", methods=["POST"])
-def get_date():
+def request_date():
     if "username" in session and session["role"] == "admin":
         session["current_date"] = request.form["date"]
         return jsonify(message="Tanggal berhasil diubah.")
