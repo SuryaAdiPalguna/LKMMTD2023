@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    
+    <!-- Link Bootstrap Icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Akhir Link Bootstrap Icon -->
+
+    <!-- Link Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- Akhir Link Bootstrap CSS -->
+</head>
+<body>
+    <section class="bg-light bg-gradient py-5" style="height: 90vh;">
+        <div class="container bg-light bg-gradient shadow rounded p-md-5 w-50">
+            <!-- Alert -->
+            <div class="row">
+                <div class="col px-3 alert-container" id="alert-container"></div>
+            </div>
+            <!-- Akhir Alert -->
+            
+            <!-- Logo -->
+            <div class="row text-center">
+                <div class="col px-3 align-items-center">
+                    <img src="{{ url_for('static', filename='image/logo.png') }}" alt="LKMMTD" width="100vw" class="img-fluid">
+                </div>
+            </div>
+            <!-- Akhir Logo -->
+
+            <!-- Title Selamat Datang -->
+            <div class="row text-center">
+                <div class="col px-3">
+                    <h2>Selamat Datang, <!-- Nama Mahasiswa --><span>{{ username }}</span><!-- Akhir Nama Mahasiswa -->!</h2>
+                </div>
+            </div>
+            <!-- Akhir Title Selamat Datang -->
+
+            <!-- Text LKMMTD -->
+            <div class="row text-center">
+                <div class="col px-3">
+                    <p>LKMM-TD FMIPA 2023</p>
+                </div>
+            </div>
+            <!-- Akhir Text LKMMTD -->
+            
+            <!-- Button Absen -->
+            <div class="row text-center">
+                <div class="col px-3">
+                    <button type="button" class="btn btn-primary absen-button" id="absen-button">Absen Sekarang <span><i class="bi bi-check-lg"></i></span></button>
+                </div>
+            </div>
+            <!-- Akhir Button Absen -->
+
+            <!-- Link Logout -->
+            <div class="row text-center">
+                <div class="col p-3">
+                    <a class="link-underline link-underline-opacity-0 text-secondary" href="/logout"><span><i class="bi bi-box-arrow-right"></i></span> Logout</a>
+                </div>
+            </div>
+            <!-- Akhir Link Logout -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-center text-light py-4">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <p>Copyright &copy; BEM FMIPA UNUD 2023. All rights reserved. Created with <span><i class="bi bi-heart-fill text-danger"></i></span> by: <span><a href="" class="fw-bold text-light text-decoration-none">Ananda Putra</a></span> and <span><a href="" class="fw-bold text-light text-decoration-none">I Made Surya Adi Palguna</a></span>.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Akhir Footer -->
+
+    <!-- Link Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <!-- Akhir Link Bootstrap JS -->
+
+    <!-- Link JQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <!-- Akhir Link JQuery JS -->
+
+    <!-- Kode JS -->
+    <script>
+        $(document).ready(function() {
+            $("#absen-button").click(function() {
+                $.ajax({
+                    type: "POST",
+                    url: "/absen",
+                    success: function(response) {
+                        if (response.error) {
+                            showAlert(response.error, "danger");
+                        } else {
+                            showAlert(response.message, "success");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        showAlert(xhr.responseText, "danger");
+                    }
+                });
+            });
+
+            function showAlert(message, alertType) {
+                let alertContainer = $("#alert-container");
+                let alertHTML = '<div class="alert alert-' + alertType + ' alert-dismissible fade show" role="alert">' + 
+                    message + 
+                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+                alertContainer.html(alertHTML);
+
+                setTimeout(function() {
+                    alertContainer.empty();
+                }, 3000);
+            }
+        });
+    </script>
+    <!-- Akhir Kode JS -->
+</body>
+</html>

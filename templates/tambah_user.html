@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Tambah User</title>
+
+    <!-- Link Bootstrap Icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Akhir Link Bootstrap Icon -->
+    
+    <!-- Link Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- Akhir Link Bootstrap CSS -->
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark fixed-top" style="width: 280px; height: 100vh;" id="sidebar">
+        <a href="/home" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none hover-item">
+            <img src="{{ url_for('static', filename='image/logo.png') }}" alt="LKMMTD" width="50vw" class="img-fluid bg-light rounded-circle">
+            <span class="fs-4 hamburger-item ps-2">LKMMTD</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="/home" class="nav-link hovering text-white hover-item">
+                    <i class="bi bi-house-door-fill"></i>
+                    <span class="hamburger-item ps-2">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/data_peserta" class="nav-link hovering text-white hover-item">
+                    <i class="bi bi-clipboard-data-fill"></i>
+                    <span class="hamburger-item ps-2">Data Peserta</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tambah_user" class="nav-link active hover-item" aria-current="page">
+                    <i class="bi bi-person-plus-fill"></i>
+                    <span class="hamburger-item ps-2">Tambah User</span>
+                </a>
+            </li>
+            <li>
+                <a href="/logout" class="nav-link hovering text-white hover-item">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span class="hamburger-item ps-2">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- Akhir Sidebar -->
+    
+    <!-- Navbar -->
+    <nav class="navbar bg-body-tertiary py-3 shadow" style="padding-left: 280px;" id="navbar">
+        <div class="container-fluid">
+            <button type="button" class="btn" id="hamburger-btn"><i class="bi bi-list fs-4"></i></button>
+        </div>
+    </nav>
+    <!-- Akhir Navbar -->
+
+    <!-- Section -->
+    <section class="bg-light bg-gradient py-5" style="padding-left: 280px;" id="section">
+        <div class="container-fluid bg-light bg-gradient shadow rounded p-md-5 my-3">
+            <!-- Alert -->
+            <div class="row">
+                <div class="col px-3 success-alert" id="success-alert"></div>
+            </div>
+            <div class="row">
+                <div class="col px-3 error-alert" id="error-alert"></div>
+            </div>
+            <!-- Akhir Alert -->
+
+            <!-- Title Tambah Pengguna -->
+            <div class="row">
+                <div class="col px-3">
+                    <h5>Tambah Pengguna</h5>
+                </div>
+            </div>
+            <!-- Akhir Title Tambah Pengguna -->
+
+            <!-- Form -->
+            <div class="row">
+                <div class="col p-3">
+                    <form onsubmit="event.preventDefault(); submitForm();">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="name" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            <select class="form-select" id="role" name="role">
+                                <option value="0">User</option>
+                                <option value="1">Admin</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Tambah Pengguna</button>
+                    </form>
+                </div>
+            </div>
+            <!-- Akhir Form -->
+        </div>
+    </section>
+    <!-- Akhir Section -->
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-center text-light py-4" style="padding-left: 280px;" id="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <p>Copyright &copy; BEM FMIPA UNUD 2023. All rights reserved. Created with <span><i class="bi bi-heart-fill text-danger"></i></span> by: <span><a href="" class="fw-bold text-light text-decoration-none">Ananda Putra</a></span> and <span><a href="" class="fw-bold text-light text-decoration-none">I Made Surya Adi Palguna</a></span>.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Akhir Footer -->
+
+    <!-- Link Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <!-- Akhir Link Bootstrap JS -->
+
+    <!-- Link JQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <!-- Akhir Link JQuery JS -->
+
+    <!-- Kode JS -->
+    <script>
+        $(document).ready(function() {
+            $("#hamburger-btn").click(function() {
+                if ($("#navbar").css("padding-left") === "280px") {
+                    $(".hamburger-item").hide();
+
+                    $("#sidebar").css("width", "4.5rem");
+                    $("#navbar, #section, #footer").css("padding-left", "4.5rem");
+                }
+                else {
+                    $(".hamburger-item").show();
+
+                    $("#sidebar").css("width", "280px");
+                    $("#navbar, #section, #footer").css("padding-left", "280px");
+                }
+            });
+
+            $(".hover-item").hover(
+                function() {
+                    $(this).stop().animate({}, 300, function() {
+                        $(".hamburger-item").show();
+                        $("#sidebar").css("width", "280px");
+                    });
+                },
+                function() {
+                    if ($("#navbar").css("padding-left") == (4.5 * parseFloat($("html").css("font-size"))) + "px") {
+                        $(this).stop().animate({}, 300, function() {
+                            $(".hamburger-item").hide();
+                            $("#sidebar").css("width", "4.5rem");
+                        });
+                    }
+                }
+            );
+
+            $(".hovering").hover(
+                function() {
+                    $(this).stop().animate({}, 300, function() {
+                        $(this).addClass("bg-secondary");
+                    });
+                },
+                function() {
+                    $(this).stop().animate({}, 300, function() {
+                        $(this).removeClass("bg-secondary");
+                    });
+                }
+            );
+        });
+    </script>
+    <script>
+        // Function to display success message as alert
+        function showSuccessAlert(message) {
+            $(".error-alert").hide();
+            $(".success-alert").text(message);
+            $(".success-alert").fadeIn(500, function() {
+                setTimeout(function() {
+                    $(".success-alert").fadeOut(500);
+                }, 3000);
+            });
+        }
+
+        // Function to display error message as alert
+        function showErrorAlert(message) {
+            $(".success-alert").hide();
+            $(".error-alert").text(message);
+            $(".error-alert").fadeIn(500, function() {
+                setTimeout(function() {
+                    $(".error-alert").fadeOut(500);
+                }, 3000);
+            });
+        }
+
+        // Function to handle form submission
+        function submitForm() {
+            let username = $("#username").val();
+            let password = $("#password").val();
+            let role = $("#role").val();
+
+            // Make an AJAX request to add_user endpoint
+            $.ajax({
+                type: "POST",
+                url: "/add_user",
+                data: {
+                    "username": username,
+                    "password": password,
+                    "role": role
+                },
+                success: function(response) {
+                    // Display success alert
+                    showSuccessAlert(response.message);
+                },
+                error: function(xhr, status, error) {
+                    // Display error alert
+                    showErrorAlert(xhr.responseJSON.error);
+                }
+            });
+        }
+    </script>
+    <!-- Akhir Kode JS -->
+</body>
+</html>
